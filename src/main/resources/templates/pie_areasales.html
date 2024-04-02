@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- <script src="echarts.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="/js/myfunction.js"></script>
+  </head>
+  <body>    
+    <div id="container_01">
+      <div id="container_02">
+        <canvas class="js-chartjs-pie"></canvas>
+      </div>
+      <script th:inline="javascript">
+        var v01 = [[${v01}]];   
+        var v02 = [[${v02}]];      
+        myChartJsDoughnut(v01, v02);
+      </script>     
+    </div>
+  </body>
+</html>
+
+<style>
+
+#container_01 { 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 400px;
+  width: 600px;
+  background-color:ghostwhite;  
+}
+#container_02 {  
+  display: flex;
+  justify-content: center;
+  align-items: center;   
+  width: 90%;
+  height: 90%;       
+}  
+</style>

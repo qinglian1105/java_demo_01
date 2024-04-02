@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  postgres-db:
+        image: postgres:13.2-alpine
+        container_name: pg_tst        
+        environment:
+            POSTGRES_DB: tst
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin321
+            PGDATA: /var/lib/postgresql/data
+        volumes:
+            - postgres-db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - app-server-network 
+  pgadmin:
+      image: dpage/pgadmin4:latest
+      container_name: pg_admin      
+      environment:
+          PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.com
+          PGADMIN_DEFAULT_PASSWORD: pgadmin321
+          PGADMIN_LISTEN_PORT: 80
+      ports:
+          - "5433:80"
+      volumes:
+          - pgadmin-data:/var/lib/pgadmin      
+  web:
+    container_name: springboot_app
+    build: .
+    image: springboot_app_image
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres-db 
+    networks:
+      - app-server-network 
+    environment:
+      spring.datasource.url: "jdbc:postgresql://postgres-db:5432/tst"       
+volumes:
+    postgres-db-data:
+    pgadmin-data:
+networks:
+  app-server-network:    
